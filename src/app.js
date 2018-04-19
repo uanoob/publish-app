@@ -1,14 +1,22 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import article from './reducers/article';
-import PublishingApp from './layouts/PublishingApp';
+import { createStore, applyMiddleware } from 'redux';
+import promiseMiddleware from 'redux-promise';
+import ReduxThunk from 'redux-thunk';
 
-let store = createStore(article)
-render(
-  <Provider store={store}>
-    <PublishingApp />
+import Routes from './routes';
+import reducers from './reducers';
+
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
+
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   </Provider>,
-  document.getElementById('publishingAppRoot')
+  document.getElementById('root'),
 );
+

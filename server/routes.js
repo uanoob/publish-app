@@ -1,14 +1,10 @@
-import mongoose from 'mongoose';
-mongoose.connect('mongodb://localhost/local');
+import configMongoose from './configMongoose';
+import sessionRoutes from './routesSession';
 
-const articleSchema = {
-  articleTitle: String,
-  articleContent: String,
-};
-
-const Article = mongoose.model('Article', articleSchema, 'articles');
+const Article = configMongoose.Article;
 
 const PublishingAppRoutes = [
+  ...sessionRoutes,
   {
     route: 'articles.length',
     get: () => {

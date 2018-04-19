@@ -7,6 +7,6 @@ const article = (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 export default article;
